@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Main file
+function called filter_datum that returns the log message obfuscated
 """
 import re
 import logging
@@ -34,3 +34,17 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.msg, self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
+
+
+PII_FIELDS = ('name', 'email', 'phone', 'address', 'credit_card')
+
+
+def get_logger() -> logging.Logger:
+    logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
+    handler = logging.StreamHandler()
+    formatter = RedactingFormatter(PII_FIELDS)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    logger.propagate = False
+    return logger
