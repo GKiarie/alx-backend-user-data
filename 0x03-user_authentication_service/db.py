@@ -31,13 +31,12 @@ class DB:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
-    
+
     def add_user(self, email: str, hashed_password: str) -> User:
         """save user to database
         Args:
             email (str): User email
             hashed_passwrod (str): Hashed Password
-            
         Returns:
             User: User Object
         """
